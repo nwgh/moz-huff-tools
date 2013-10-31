@@ -11,7 +11,7 @@ struct huff_outgoing_entry {
   uint32_t value;
 };
 
-huff_outgoing_entry *huff_outgoing = {
+static huff_outgoing_entry huff_outgoing[] = {
 ''')
 
 entries = []

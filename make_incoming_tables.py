@@ -83,7 +83,7 @@ def output_table(table, name_suffix=''):
             output_table(t, '%s_%s' % (name_suffix, i))
 
     tablename = 'huff_incoming%s' % (name_suffix if name_suffix else '_root',)
-    sys.stdout.write('static huff_table %s = {\n' % (tablename,))
+    sys.stdout.write('static huff_incoming_table %s = {\n' % (tablename,))
     sys.stdout.write('  .prefix_len = %s,\n' % (max_prefix_len,))
     sys.stdout.write('  .entries = {\n')
     entries = make_entry_list(table, max_prefix_len)
@@ -115,17 +115,17 @@ sys.stdout.write('''#ifndef mozilla__net__Http2HuffIncoming_h
 namespace mozilla {
 namespace net {
 
-struct huff_table;
+struct huff_incoming_table;
 
-struct huff_entry {
+struct huff_incoming_entry {
   uint8_t prefix_len;
   uint8_t value;
-  huff_table *ptr;
+  huff_incoming_table *ptr;
 };
 
-struct huff_table {
+struct huff_incoming_table {
   uint8_t prefix_len;
-  huff_entry *entries;
+  huff_incoming_entry *entries;
 };
 
 ''')
