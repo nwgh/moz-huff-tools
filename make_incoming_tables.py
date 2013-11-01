@@ -83,9 +83,8 @@ def output_table(table, name_suffix=''):
             output_table(t, '%s_%s' % (name_suffix, i))
 
     tablename = 'huff_incoming%s' % (name_suffix if name_suffix else '_root',)
-    sys.stdout.write('static huff_incoming_table %s = {\n' % (tablename,))
-    sys.stdout.write('  .prefix_len = %s,\n' % (max_prefix_len,))
-    sys.stdout.write('  .entries = {\n')
+    entriestable = tablename.replace('huff_incoming', 'huff_incoming_entries')
+    sys.stdout.write('static huff_incoming_entry %s[] = {\n' % (entriestable,))
     entries = make_entry_list(table, max_prefix_len)
     prefix_len = 0
     value = 0
@@ -100,12 +99,16 @@ def output_table(table, name_suffix=''):
             value = 0
             subtable = '%s_%s' % (name_suffix, i)
             ptr = '&huff_incoming%s' % (subtable,)
-        sys.stdout.write('    { .prefix_len = %s, .value = %s, .ptr = %s }' %
+        sys.stdout.write('  { .prefix_len = %s, .value = %s, .ptr = %s }' %
                          (prefix_len, value, ptr))
         if i < (len(table) - 1):
             sys.stdout.write(',')
         sys.stdout.write('\n')
-    sys.stdout.write('  }\n')
+    sys.stdout.write('};\n')
+    sys.stdout.write('\n')
+    sys.stdout.write('static huff_incoming_table %s = {\n' % (tablename,))
+    sys.stdout.write('  .prefix_len = %s,\n' % (max_prefix_len,))
+    sys.stdout.write('  .entries = %s\n' % (entriestable,))
     sys.stdout.write('};\n')
     sys.stdout.write('\n')
 
@@ -119,7 +122,7 @@ struct huff_incoming_table;
 
 struct huff_incoming_entry {
   uint8_t prefix_len;
-  uint8_t value;
+  uint16_t value;
   huff_incoming_table *ptr;
 };
 
