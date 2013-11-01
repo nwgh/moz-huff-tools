@@ -80,11 +80,11 @@ def output_table(table, name_suffix=''):
             if t['prefix_len'] > max_prefix_len:
                 max_prefix_len = t['prefix_len']
         elif t is not None:
-            output_table(t, '%s_%s' % (name_suffix, i))
+            output_table(t, '%s%s' % (name_suffix, i))
 
-    tablename = 'huff_incoming%s' % (name_suffix if name_suffix else '_root',)
-    entriestable = tablename.replace('huff_incoming', 'huff_incoming_entries')
-    sys.stdout.write('static huff_incoming_entry %s[] = {\n' % (entriestable,))
+    tablename = 'HuffmanIncoming%s' % (name_suffix if name_suffix else 'Root',)
+    entriestable = tablename.replace('HuffmanIncoming', 'HuffmanIncomingEntries')
+    sys.stdout.write('static HuffmanIncomingEntry %s[] = {\n' % (entriestable,))
     entries = make_entry_list(table, max_prefix_len)
     prefix_len = 0
     value = 0
@@ -97,38 +97,38 @@ def output_table(table, name_suffix=''):
         elif t is not None:
             prefix_len = 0
             value = 0
-            subtable = '%s_%s' % (name_suffix, i)
-            ptr = '&huff_incoming%s' % (subtable,)
-        sys.stdout.write('  { .prefix_len = %s, .value = %s, .ptr = %s }' %
+            subtable = '%s%s' % (name_suffix, i)
+            ptr = '&HuffmanIncoming%s' % (subtable,)
+        sys.stdout.write('  { .mPrefixLen = %s, .mValue = %s, .mPtr = %s }' %
                          (prefix_len, value, ptr))
         if i < (len(table) - 1):
             sys.stdout.write(',')
         sys.stdout.write('\n')
     sys.stdout.write('};\n')
     sys.stdout.write('\n')
-    sys.stdout.write('static huff_incoming_table %s = {\n' % (tablename,))
-    sys.stdout.write('  .prefix_len = %s,\n' % (max_prefix_len,))
-    sys.stdout.write('  .entries = %s\n' % (entriestable,))
+    sys.stdout.write('static HuffmanIncomingTable %s = {\n' % (tablename,))
+    sys.stdout.write('  .mPrefixLen = %s,\n' % (max_prefix_len,))
+    sys.stdout.write('  .mEntries = %s\n' % (entriestable,))
     sys.stdout.write('};\n')
     sys.stdout.write('\n')
 
-sys.stdout.write('''#ifndef mozilla__net__Http2HuffIncoming_h
-#define mozilla__net__Http2HuffIncoming_h
+sys.stdout.write('''#ifndef mozilla__net__Http2HuffmanIncoming_h
+#define mozilla__net__Http2HuffmanIncoming_h
 
 namespace mozilla {
 namespace net {
 
-struct huff_incoming_table;
+struct HuffmanIncomingTable;
 
-struct huff_incoming_entry {
-  uint8_t prefix_len;
-  uint16_t value;
-  huff_incoming_table *ptr;
+struct HuffmanIncomingEntry {
+  uint8_t mPrefixLen;
+  uint16_t mValue;
+  HuffmanIncomingTable *mPtr;
 };
 
-struct huff_incoming_table {
-  uint8_t prefix_len;
-  huff_incoming_entry *entries;
+struct HuffmanIncomingTable {
+  uint8_t mPrefixLen;
+  HuffmanIncomingEntry *mEntries;
 };
 
 ''')
@@ -138,5 +138,5 @@ output_table(table)
 sys.stdout.write('''} // namespace net
 } // namespace mozilla
 
-#endif // mozilla__net__Http2HuffIncoming_h
+#endif // mozilla__net__Http2HuffmanIncoming_h
 ''')

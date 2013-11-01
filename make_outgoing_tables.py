@@ -1,17 +1,17 @@
 import sys
 
-sys.stdout.write('''#ifndef mozilla__net__Http2HuffOutgoing_h
-#define mozilla__net__Http2HuffOutging_h
+sys.stdout.write('''#ifndef mozilla__net__Http2HuffmanOutgoing_h
+#define mozilla__net__Http2HuffmanOutging_h
 
 namespace mozilla {
 namespace net {
 
-struct huff_outgoing_entry {
-  uint8_t length;
-  uint32_t value;
+struct HuffmanOutgoingEntry {
+  uint8_t mLength;
+  uint32_t mValue;
 };
 
-static huff_outgoing_entry huff_outgoing[] = {
+static HuffmanOutgoingEntry HuffmanOutgoing[] = {
 ''')
 
 entries = []
@@ -32,7 +32,7 @@ for line in sys.stdin:
 
 line = []
 for i, e in enumerate(entries):
-    sys.stdout.write('  { .length = %s, .value = 0x%08x }' %
+    sys.stdout.write('  { .mLength = %s, .mValue = 0x%08x }' %
                      (e['length'], e['value']))
     if i < (len(entries) - 1):
         sys.stdout.write(',')
@@ -43,6 +43,6 @@ sys.stdout.write('''};
 } // namespace net
 } // namespace mozilla
 
-#endif // mozilla__net__Http2HuffOutgoing_h
+#endif // mozilla__net__Http2HuffmanOutgoing_h
 ''')
 
