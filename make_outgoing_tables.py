@@ -32,7 +32,7 @@ for line in sys.stdin:
 
 line = []
 for i, e in enumerate(entries):
-    sys.stdout.write('  { .mLength = %s, .mValue = 0x%08x }' %
+    sys.stdout.write('  { %s, 0x%08x }' %
                      (e['length'], e['value']))
     if i < (len(entries) - 1):
         sys.stdout.write(',')

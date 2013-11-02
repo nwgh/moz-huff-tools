@@ -99,7 +99,7 @@ def output_table(table, name_suffix=''):
             value = 0
             subtable = '%s%s' % (name_suffix, i)
             ptr = '&HuffmanIncoming%s' % (subtable,)
-        sys.stdout.write('  { .mPrefixLen = %s, .mValue = %s, .mPtr = %s }' %
+        sys.stdout.write('  { %s, %s, %s }' %
                          (prefix_len, value, ptr))
         if i < (len(table) - 1):
             sys.stdout.write(',')
@@ -107,8 +107,8 @@ def output_table(table, name_suffix=''):
     sys.stdout.write('};\n')
     sys.stdout.write('\n')
     sys.stdout.write('static HuffmanIncomingTable %s = {\n' % (tablename,))
-    sys.stdout.write('  .mPrefixLen = %s,\n' % (max_prefix_len,))
-    sys.stdout.write('  .mEntries = %s\n' % (entriestable,))
+    sys.stdout.write('  %s,\n' % (max_prefix_len,))
+    sys.stdout.write('  %s\n' % (entriestable,))
     sys.stdout.write('};\n')
     sys.stdout.write('\n')
 
