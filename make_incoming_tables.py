@@ -112,7 +112,10 @@ def output_table(table, name_suffix=''):
     sys.stdout.write('};\n')
     sys.stdout.write('\n')
 
-sys.stdout.write('''#ifndef mozilla__net__Http2HuffmanIncoming_h
+sys.stdout.write('''/*
+ * THIS FILE IS AUTO-GENERATED. DO NOT EDIT!
+ */
+#ifndef mozilla__net__Http2HuffmanIncoming_h
 #define mozilla__net__Http2HuffmanIncoming_h
 
 namespace mozilla {
